@@ -2,13 +2,13 @@ package com.repository
 
 import com.model.User
 
-class UserManagerRepositoryImpl: UserManagerRepository {
+class UserManagerRepositoryImpl : UserManagerRepository {
     override fun createUser(user: User) {
         TODO("Not yet implemented")
     }
 
     override fun listUsers(): List<User> {
-        TODO("Not yet implemented")
+        return arrayListOf(User("name"), User("name2"))
     }
 
     override fun getUserById(): User {
