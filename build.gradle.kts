@@ -26,7 +26,6 @@ dependencies {
     implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.javalin:javalin:3.13.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
-
     // Testing
     testImplementation("io.insert-koin:koin-test:$koin_version")
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
