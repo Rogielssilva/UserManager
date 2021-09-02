@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: User manger
+  description: |-
+    User manager APIs
+  contact: { }
+  version: '1.0'
+servers:
+  - url: 'http://localhost:7000/v1'
+    variables: { }
+components:
+  schemas:
+    UserRequest:
+      title: UserRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+paths:
+  /users:
+    get:
+      summary: 'get user list'
+      tags:
+        - users
+      responses:
+        200:
+          description: 'ok'
+          headers: { }
+    post:
+      summary: 'create user'
+      tags:
+        - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+
+      responses:
+        200:
+          description: ok

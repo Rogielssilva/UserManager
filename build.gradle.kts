@@ -24,8 +24,8 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.insert-koin:koin-core:$koin_version")
-    implementation("org.openapitools:openapi-generator-gradle-plugin:$openapi_version")
-    implementation("io.springfox:springfox-swagger2:2.7.0")
+    implementation("io.javalin:javalin:3.13.3")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
 
     // Testing
     testImplementation("io.insert-koin:koin-test:$koin_version")

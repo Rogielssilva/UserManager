@@ -3,7 +3,7 @@ package com.repository
 import com.model.User
 
 class UserManagerRepositoryImpl : UserManagerRepository {
-    override fun createUser(user: User) {
+    override fun createUser(user: User): User {
         TODO("Not yet implemented")
     }
 
