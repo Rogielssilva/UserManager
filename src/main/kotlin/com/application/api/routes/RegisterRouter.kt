@@ -6,13 +6,15 @@ import io.javalin.apibuilder.ApiBuilder.*
 
 
 class RegisterRouter(private val userManagerController: UserManagerController) {
-    //TODO pass javalin as parameter when start to user swagger
     fun register() {
         path("/users") {
             get { it.json(UsersResponse(userManagerController.listUsers())) }
-
-            post { ctx -> ctx.json(userManagerController.create(ctx)) }
-
+            post { ctx -> userManagerController.create(ctx) }
+            path("/:id") {
+                delete { ctx -> userManagerController.delete(ctx) }
+                put { ctx -> userManagerController.updateUser(ctx) }
+                get { ctx -> userManagerController.getUserById(ctx) }
+            }
         }
     }
 }

@@ -37,7 +37,50 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserRequest'
-
       responses:
         200:
           description: ok
+  /users/{id}:
+    put:
+      summary: "update a specific user"
+      tags:
+        - users
+      parameters:
+        - in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+      responses:
+        200:
+          description: ''
+          headers: { }
+    get:
+      summary: "get user by id"
+      tags:
+        - users
+      parameters:
+        - in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+      responses:
+        200:
+          description: ''
+          headers: { }
+    delete:
+      description: 'delete user by id'
+      summary: "delete user by id"
+      tags:
+        - users
+      parameters:
+        - in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+      responses:
+        200:
+          description: ''
+          headers: { }

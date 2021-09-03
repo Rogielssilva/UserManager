@@ -2,6 +2,7 @@ package com.application
 
 
 import com.application.api.routes.RegisterRouter
+import com.application.api.web.error.ErrorExceptionHandler
 import com.application.config.ModulesConfig
 import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
@@ -39,7 +40,6 @@ class Application : KoinComponent {
                 addStaticFiles("/swagger")
                 addSinglePageRoot("", "/swagger/swagger-ui.html")
                 server {
-
                     Server(7000)
                 }
             }
@@ -53,6 +53,8 @@ class Application : KoinComponent {
         app.routes {
             route.register()
         }
+
+        ErrorExceptionHandler.register(app)
 
         return app
     }

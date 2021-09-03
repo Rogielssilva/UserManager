@@ -2,9 +2,9 @@ package com.application.config
 
 import com.application.api.routes.RegisterRouter
 import com.application.api.web.controller.UserManagerController
-import com.repository.UserManagerRepository
-import com.repository.UserManagerRepositoryImpl
-import com.service.UserManagerService
+import com.domain.repository.UserManagerRepository
+import com.domain.repository.UserManagerRepositoryImpl
+import com.domain.service.UserManagerService
 import org.koin.dsl.module
 
 object ModulesConfig {
