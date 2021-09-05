@@ -1,9 +1,9 @@
 package com.domain.repository
 
 import com.model.User
+import io.ktor.features.*
 
 class UserManagerRepositoryImpl : UserManagerRepository {
-
     private val users = mutableListOf<User>()
     private var idCount = 1
 
@@ -19,29 +19,28 @@ class UserManagerRepositoryImpl : UserManagerRepository {
     }
 
     override fun getUserById(id: Int): User {
-        return this.users.find { user -> user.id == id }!!
+        val user = this.users.find { user -> user.id == id }
+        checkIfExists(id, user)
+        return user!!
     }
 
     override fun upsertUser(userToUpdate: User): User {
-        for (user in users) {
-            if (user.id == userToUpdate.id) {
-                users.remove(user)
-                users.add(userToUpdate)
-            }
-
-    }
-        //Handle with the problem when the id doesn't exist
+        getUserById(userToUpdate.id).apply {
+            users.remove(this)
+            users.add(userToUpdate)
+        }
         return userToUpdate
+    }
 
-}
-
-override fun delete(id: Int) {
-    // DB mock
-    for (user in this.users) {
-        if (user?.id == id) {
-            this.users.remove(user)
-            break
+    override fun delete(id: Int) {
+        getUserById(id).apply {
+            users.remove(this)
         }
     }
-}
+
+    private fun checkIfExists(id: Int, user: User?) {
+        if (user === null) {
+            throw NotFoundException("user id $id not found")
+        }
+    }
 }

@@ -2,7 +2,7 @@ package com.application
 
 
 import com.application.api.routes.RegisterRouter
-import com.application.api.web.error.ErrorExceptionHandler
+import com.application.api.web.error.AdviceHandlerError
 import com.application.config.ModulesConfig
 import io.javalin.Javalin
 import org.eclipse.jetty.server.Server
@@ -15,7 +15,6 @@ import org.koin.core.logger.Level
 
 
 class Application : KoinComponent {
-
     //TODO add in the route
     private val route: RegisterRouter by inject()
 
@@ -25,21 +24,18 @@ class Application : KoinComponent {
             modules(ModulesConfig.allModule)
         }
 
-        val register = registerInit()
-
-        return register.start()
+        return registerAll().start()
     }
 
 
-    private fun registerInit(): Javalin {
-        //TODO
-
-        val app = Javalin.create { javalinConfig ->
-            javalinConfig.apply {
+    private fun registerAll(): Javalin {
+        val app = Javalin.create { config ->
+            config.apply {
                 contextPath = "/v1"
                 addStaticFiles("/swagger")
                 addSinglePageRoot("", "/swagger/swagger-ui.html")
                 server {
+                    //change this to get from config env
                     Server(7000)
                 }
             }
@@ -54,7 +50,7 @@ class Application : KoinComponent {
             route.register()
         }
 
-        ErrorExceptionHandler.register(app)
+        AdviceHandlerError.register(app)
 
         return app
     }
