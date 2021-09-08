@@ -6,17 +6,15 @@ import com.zaxxer.hikari.HikariDataSource
 
 object DataSourceConfig {
     //TODO get from env
-    fun getConfig(): HikariDataSource {
-
-
+    fun getConfig(env: EnvironmentConfig): HikariDataSource {
         val config = HikariConfig().apply {
-            this.jdbcUrl = "jdbc:postgresql://localhost:5432/postgres"
-            this.username = "postgres"
-            this.maximumPoolSize = 10
-            this.driverClassName = "org.postgresql.Driver"
-            this.password = "postgres"
-
+            this.jdbcUrl = env.urlJdbc
+            this.username = env.username
+            this.maximumPoolSize = env.pool
+            this.driverClassName = env.driver
+            this.password = env.password
         }
+
         return HikariDataSource(config)
     }
 

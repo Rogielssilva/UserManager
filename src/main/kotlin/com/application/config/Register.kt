@@ -3,12 +3,7 @@ package com.application.config
 
 import com.application.api.routes.RegisterUserManagerRouter
 import com.application.api.web.advice.AdviceHandlerError
-import com.application.config.DataSourceConfig
-import com.application.config.ModulesConfig
-import com.zaxxer.hikari.HikariDataSource
 import io.javalin.Javalin
-import io.javalin.core.util.RouteOverviewUtil.metaInfo
-
 import io.prometheus.client.exporter.HTTPServer
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.handler.StatisticsHandler
@@ -24,8 +19,8 @@ import org.koin.core.logger.Level
 
 
 class Application : KoinComponent {
-    //TODO add in the route
     private val route: RegisterUserManagerRouter by inject()
+    private val environment: EnvironmentConfig by inject()
 
     private val statisticsHandler = StatisticsHandler()
     private val queuedThreadPool = QueuedThreadPool(200, 8, 60_000)
@@ -36,20 +31,12 @@ class Application : KoinComponent {
             modules(ModulesConfig.allModule)
         }
 
+        runMigration()
+
         return registerAll().start()
     }
 
-
     private fun registerAll(): Javalin {
-        //move it to register DB
-        Database.connect(DataSourceConfig.getConfig())
-        Flyway.configure().locations("db/migration")
-            .dataSource("jdbc:postgresql://localhost:5432/postgres", "postgres", "postgres").load().migrate()
-
-
-        val f = Flyway.configure().load()
-
-
         val app = Javalin.create { config ->
             config.apply {
                 contextPath = "/v1"
@@ -77,6 +64,7 @@ class Application : KoinComponent {
 
         AdviceHandlerError.register(app)
         initializePrometheus()
+        initializeDB(environment)
 
         return app
     }
@@ -84,5 +72,15 @@ class Application : KoinComponent {
     private fun initializePrometheus() {
         //TODO fix this later
         HTTPServer(7080)
+    }
+
+    private fun runMigration() {
+        Flyway.configure().locations("db/migration")
+            .dataSource("jdbc:postgresql://localhost:5432/postgres", "postgres", "postgres")
+            .load().migrate()
+    }
+
+    private fun initializeDB(environmentConfig: EnvironmentConfig) {
+        Database.connect(DataSourceConfig.getConfig(environmentConfig))
     }
 }

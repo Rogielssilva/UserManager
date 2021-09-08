@@ -17,6 +17,7 @@ object ModulesConfig {
 
     private val configModule = module {
         single { RegisterUserManagerRouter(get()) }
+        single { EnvironmentConfig() }
     }
 
     // TODO add here the any new module injection

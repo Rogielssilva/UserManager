@@ -31,6 +31,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed:0.17.13")
     implementation("org.postgresql:postgresql:42.2.5")
     implementation("org.flywaydb:flyway-core:6.5.2")
+    implementation("com.natpryce:konfig:1.6.10.0")
 
     // Testing
     testImplementation("io.insert-koin:koin-test:$koin_version")
