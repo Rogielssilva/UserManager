@@ -3,10 +3,11 @@ package com.application.api.routes
 import com.application.api.web.controller.UserManagerController
 import com.application.api.web.entities.UsersResponse
 import io.javalin.apibuilder.ApiBuilder.*
+import io.ktor.features.*
 
 
-class RegisterRouter(private val userManagerController: UserManagerController) {
-    fun register() {
+class RegisterUserManagerRouter(private val userManagerController: UserManagerController) : Router {
+    override fun register() {
         path("/users") {
             get { it.json(UsersResponse(userManagerController.listUsers())) }
             post { ctx -> userManagerController.create(ctx) }
@@ -16,5 +17,6 @@ class RegisterRouter(private val userManagerController: UserManagerController) {
                 get { ctx -> userManagerController.getUserById(ctx) }
             }
         }
+
     }
 }

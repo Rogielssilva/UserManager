@@ -1,4 +1,4 @@
-package com.application.api.web.error
+package com.application.api.web.advice
 
 import io.javalin.Javalin
 import io.ktor.features.*

@@ -13,17 +13,16 @@ class UserManagerService(private val repository: UserManagerRepository) {
     }
 
     fun createUser(user: User): User {
-        return repository.createUser(user).apply {
-            log.info("user ${user.name} was created")
+        return repository.upsertUser(user).apply {
         }
     }
 
-    fun deleteUser(id: Int) {
+    fun deleteUser(id: Int): Int {
         return repository.delete(id)
     }
 
 
-    fun getUserById(id: Int): User  {
+    fun getUserById(id: Int): User {
         return repository.getUserById(id)
     }
 

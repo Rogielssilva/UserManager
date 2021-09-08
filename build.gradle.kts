@@ -26,6 +26,12 @@ dependencies {
     implementation("io.insert-koin:koin-core:$koin_version")
     implementation("io.javalin:javalin:3.13.3")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
+    implementation("io.prometheus:simpleclient_httpserver:0.11.0")
+    implementation("com.zaxxer:HikariCP:3.1.0")
+    implementation("org.jetbrains.exposed:exposed:0.17.13")
+    implementation("org.postgresql:postgresql:42.2.5")
+    implementation("org.flywaydb:flyway-core:6.5.2")
+
     // Testing
     testImplementation("io.insert-koin:koin-test:$koin_version")
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")

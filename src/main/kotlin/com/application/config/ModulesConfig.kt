@@ -1,6 +1,7 @@
 package com.application.config
 
-import com.application.api.routes.RegisterRouter
+import com.application.api.routes.RegisterUserManagerRouter
+import com.application.api.routes.Router
 import com.application.api.web.controller.UserManagerController
 import com.domain.repository.UserManagerRepository
 import com.domain.repository.UserManagerRepositoryImpl
@@ -15,7 +16,7 @@ object ModulesConfig {
     }
 
     private val configModule = module {
-        single { RegisterRouter(get()) }
+        single { RegisterUserManagerRouter(get()) }
     }
 
     // TODO add here the any new module injection

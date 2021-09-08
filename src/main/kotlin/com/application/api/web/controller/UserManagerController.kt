@@ -4,6 +4,7 @@ import com.model.User
 import com.domain.service.UserManagerService
 
 import io.javalin.http.Context
+import io.ktor.features.*
 import org.eclipse.jetty.http.HttpStatus
 
 const val ID_PARAM = "id"
@@ -15,7 +16,6 @@ class UserManagerController(private val service: UserManagerService) {
     }
 
     fun create(ctx: Context) {
-        //TODO handle exception
         ctx.bodyValidator<User>()
             .check({ it.name.isNotBlank() })
             .get().also { user ->
@@ -29,7 +29,10 @@ class UserManagerController(private val service: UserManagerService) {
     fun delete(ctx: Context) {
         ctx.pathParam<Int>(ID_PARAM)
             .get().apply {
-                service.deleteUser(this)
+                val affected = service.deleteUser(this)
+                if (affected == 0) {
+                    throw NotFoundException("userid ${this} was not found")
+                }
             }
     }
 
@@ -39,7 +42,6 @@ class UserManagerController(private val service: UserManagerService) {
                 service.getUserById(this).apply {
                     ctx.json(this)
                 }
-
             }
     }
 
@@ -54,5 +56,3 @@ class UserManagerController(private val service: UserManagerService) {
             }
     }
 }
-
-
