@@ -9,15 +9,25 @@ plugins {
     kotlin("jvm") version "1.5.30"
 }
 
-group = "com.example"
+group = "com.application"
 version = "0.0.1"
 application {
-    mainClass.set("com.example.ApplicationKt")
+    mainClass.set("com.application.ApplicationKt")
 }
 
 repositories {
     mavenCentral()
 }
+
+//tasks.withType<Test> {
+//    useJUnitPlatform()
+//}
+
+tasks.test {
+    testLogging.showStandardStreams = true
+    useJUnitPlatform()
+}
+
 
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
@@ -34,19 +44,9 @@ dependencies {
     implementation("com.natpryce:konfig:1.6.10.0")
 
     // Testing
-    testImplementation("io.insert-koin:koin-test:$koin_version")
+    //testImplementation("io.insert-koin:koin-test:$koin_version")
     testImplementation("io.ktor:ktor-server-tests:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
+    //testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlin_version")
+    testImplementation("io.mockk:mockk:1.9.3")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.4.2")
 }
-
-//generateSwagger {
-//    platform.set("kotlin")
-//    packageName.set("com.yelp.codegen.samples")
-//    specName.set("sample_specs")
-//    specVersion.set("1.0.0")
-//    inputFile.set(file("../sample_specs.json"))
-//    outputDir.set(project.layout.projectDirectory.dir("./src/main/java/"))
-//    features {
-//        headersToRemove.add("Accept-Language")
-//    }
-//}

@@ -13,8 +13,8 @@ class UserManagerService(private val repository: UserManagerRepository) {
     }
 
     fun createUser(user: User): User {
-        return repository.upsertUser(user).apply {
-        }
+        return repository.upsertUser(user)
+
     }
 
     fun deleteUser(id: Int): Int {
