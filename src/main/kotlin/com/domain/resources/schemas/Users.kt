@@ -1,10 +1,7 @@
 package com.domain.resources.schemas
 
-import com.model.User
-import org.jetbrains.exposed.dao.IntIdTable
-import org.jetbrains.exposed.dao.LongIdTable
+import com.domain.entities.User
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.Table
 
 

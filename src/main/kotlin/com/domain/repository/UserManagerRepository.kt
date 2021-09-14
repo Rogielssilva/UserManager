@@ -1,10 +1,10 @@
 package com.domain.repository
 
-import com.model.User
+import com.domain.entities.User
 
 interface UserManagerRepository {
     fun listUsers(): List<User>
     fun getUserById(id: Int): User
-    fun upsertUser(user: User): User
-    fun delete(id: Int): Int
+    fun upsertUser(id: Int = 0, user: User): User
+    fun delete(id: Int)
 }

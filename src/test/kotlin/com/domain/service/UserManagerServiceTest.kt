@@ -1,20 +1,19 @@
 package com.domain.service
 
-
-import com.domain.repository.UserManagerRepositoryImpl
-import com.model.User
+import com.infrastrutucture.repositoriesImpl.UserManagerRepositoryImpl
+import com.domain.entities.User
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Before
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+
+private const val USER_ID = 1
 
 class UserManagerServiceTest {
-
     private var repository = mockk<UserManagerRepositoryImpl>()
     private var service: UserManagerService = UserManagerService(repository)
 
@@ -25,18 +24,19 @@ class UserManagerServiceTest {
 
     @Test
     fun testDeleteUserByID() {
-        every { repository.delete(1) } returns 1
-        val result = service?.deleteUser(1)
+        every { repository.delete(USER_ID) } returns 1
+        val result = service?.deleteUser(USER_ID)
 
+        verify { repository.delete(USER_ID) }
         assertNotNull(result)
-        assertEquals(1, result)
+        assertEquals(USER_ID, result)
     }
 
     @Test
     fun testGetUserByID() {
-        every { repository.getUserById(1) } returns buildUser()
+        every { repository.getUserById(USER_ID) } returns buildUser()
 
-        val user = service?.getUserById(1)
+        val user = service?.getUserById(USER_ID)
 
         assertNotNull(user)
         assertEquals(buildUser(), user)
@@ -71,11 +71,11 @@ class UserManagerServiceTest {
         val user = service?.createUser(entity)
 
         assertNotNull(user)
+
         assertEquals(entity.name, user.name)
     }
 
     private fun buildUser(): User {
-        return User("test", 1)
+        return User("test", USER_ID)
     }
-
 }

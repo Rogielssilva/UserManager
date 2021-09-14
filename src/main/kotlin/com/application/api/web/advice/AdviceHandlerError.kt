@@ -20,5 +20,10 @@ object AdviceHandlerError {
             val error = ErrorResponse(exception.message.toString(), HttpStatus.NOT_FOUND_404)
             ctx.json(error).status(HttpStatus.NOT_FOUND_404)
         }
+        app.exception(NoSuchElementException::class.java) { exception, ctx ->
+            LOG.error("got the NoSuchElementException in the request of ${ctx.url()}", exception)
+            val error = ErrorResponse(exception.message.toString(), HttpStatus.NOT_FOUND_404)
+            ctx.json(error).status(HttpStatus.NOT_FOUND_404)
+        }
     }
 }

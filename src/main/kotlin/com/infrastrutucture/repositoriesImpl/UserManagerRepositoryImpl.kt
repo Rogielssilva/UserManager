@@ -1,13 +1,13 @@
-package com.domain.repository
+package com.infrastrutucture.repositoriesImpl
 
+import com.domain.repository.UserManagerRepository
 import com.domain.resources.schemas.Users
-import com.model.User
+import com.domain.entities.User
 import io.ktor.features.*
 import org.jetbrains.exposed.sql.*
 
 
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.koin.core.qualifier.qualifier
 import org.slf4j.LoggerFactory
 
 class UserManagerRepositoryImpl : UserManagerRepository {
@@ -25,42 +25,39 @@ class UserManagerRepositoryImpl : UserManagerRepository {
         return transaction {
             Users.select { Users.id eq id }
                 .map { Users.mapToUser(it) }
-                .first()
-
-            //
+                .firstOrNull() ?: throw NotFoundException("userId :${id} not found")
         }.also {
             LOG.debug("got info about the userId $id")
         }
-
     }
 
-    override fun upsertUser(entity: User): User {
-        if (entity.id == 0) {
+    override fun upsertUser(userId: Int, entity: User): User {
+        if (userId == 0) {
             return createUser(entity)
         }
 
         try {
             return transaction {
-                Users.update({ Users.id eq entity.id }) { row ->
-                    row[Users.name] = entity.name
+                Users.update({ Users.id eq userId }) { row ->
+                    row[this.name] = entity.name
                 }
+            }.let {
+                return getUserById(userId)
             }.also {
                 LOG.debug("userId ${entity.id} was updated")
-            }.let {
-                return getUserById(it)
             }
-        }catch ( e: NoSuchElementException){
+        } catch (e: NoSuchElementException) {
             LOG.error("userId ${entity.id} was not found in the updates process")
             throw NotFoundException("userId ${entity.id} was not found")
         }
-
     }
 
-
-    override fun delete(id: Int): Int {
+    override fun delete(id: Int) {
         return transaction {
             Users.deleteWhere { Users.id eq id }
+                .takeIf { it == 1 } ?: throw NotFoundException("userid $id was not found")
         }
+
     }
 
 
